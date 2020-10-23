@@ -1,8 +1,38 @@
 /* eslint-disable global-require */
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
+import React, { useState, useContext } from 'react';
 
 const Sidebar = () => {
+  const [donasi, setDonasi] = useState(0);
+  const themes = {
+    light: {
+      foreground: '#000000',
+      background: '#eeeeee',
+    },
+    dark: {
+      foreground: '#ffffff',
+      background: '#222222',
+    },
+  };
+  const ThemeContext = React.createContext(themes.light);
+
+  function ThemedButton() {
+    const theme = useContext(ThemeContext);
+    return (
+      <>
+        <button
+          type="submit"
+          style={{ background: theme.background, color: theme.foreground }}
+          onClick={() => {
+            setDonasi(donasi + 10000);
+          }}
+        >
+          Tambah Donasi
+        </button>
+      </>
+    );
+  }
+
   return (
     <aside>
       <article className="profile">
@@ -41,6 +71,27 @@ const Sidebar = () => {
               <td>081299413339</td>
             </tr>
           </table>
+          <h3>Donasi (Penggunaan useState dan useContext)</h3>
+          <p>
+            Fitur ini digunakan untuk anda yang ingin berdonasi kepada
+            masyarakat kurang mampu
+          </p>
+          <p>
+            <b>{`Anda akan berdonasi Rp.${donasi}`}</b>
+          </p>
+          <center>
+            {/* <button
+              type="submit"
+              onClick={() => {
+                setDonasi(donasi + 10000);
+              }}
+            >
+              Tambah Donasi
+            </button> */}
+            <ThemeContext.Provider value={themes.dark}>
+              <ThemedButton />
+            </ThemeContext.Provider>
+          </center>
         </section>
       </article>
     </aside>
